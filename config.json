@@ -1,0 +1,1 @@
+{"dstip": "127.0.0.1", "srcport": "1234", "dstport": "9966", "protocol": "UDP", "conv_srcip": "10.100.102.26", "conv_dstip": "10.100.102.36", "conv_srcport": "0", "conv_dstport": "5555"}
