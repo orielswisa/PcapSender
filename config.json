@@ -1,1 +1,1 @@
-{"dstip": "10.100.102.36", "srcport": "12369", "dstport": "12345", "protocol": "UDP", "conv_srcip": "10.100.102.26", "conv_dstip": "10.100.102.36", "conv_srcport": "0", "conv_dstport": "9956"}
+{"srcip": "192.168.98.125", "dstip": "192.168.0.26", "srcport": "12345", "dstport": "9999", "protocol": "UDP", "conv_srcip": "1.1.32.250", "conv_dstip": "225.6.7.8", "conv_srcport": "0", "conv_dstport": "5555"}

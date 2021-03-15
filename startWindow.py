@@ -34,6 +34,15 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         font.setPointSize(14)
         self.startButton.setFont(font)
         self.startButton.setObjectName("startButton")
+        
+        
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.stopButton = QtWidgets.QPushButton(self.centralwidget)
+        self.stopButton.setGeometry(QtCore.QRect(90, 210, 201, 30))
+        self.stopButton.setFont(font)
+        self.stopButton.setObjectName("stopButton")
+        
         self.choose_label = QtWidgets.QLabel(self.centralwidget)
         self.choose_label.setGeometry(QtCore.QRect(120, 80, 141, 31))
         font = QtGui.QFont()
@@ -124,12 +133,14 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.toolSearchButton.clicked.connect(self.openFileExplorer)
         self.actionSettings.triggered.connect(self.openSetting)
         self.startButton.clicked.connect(self.startSending)
+        self.stopButton.setEnabled(False)
 
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Pcap sending"))
         self.startButton.setText(_translate("MainWindow", "Start sending"))
+        self.stopButton.setText(_translate("MainWindow", "Stop sending"))
         self.choose_label.setText(_translate("MainWindow", "Choose File:"))
         self.title.setText(_translate("MainWindow", "Pcap sender"))
         self.time_lable.setText(_translate("MainWindow", "00"))
@@ -184,10 +195,14 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         try:
             connect_msg = IP(dst = self.config_dict["dstip"])/UDP(sport= int(self.config_dict["srcport"]),dport = int(self.config_dict["dstport"]))/Raw("Connect")
             send(connect_msg)
-            self.config_dict["filename"] = self.path_edit.toPlainText()
-            self.config_dict["srcip"] = IP().src
+            self.config_dict["filename"] = self.full_path
             self.senderClass = Sender(self.config_dict,self)
-            self.senderClass.sendPcap()
+            self.stopButton.setEnabled(True)
+            
+            
+            #send in loop for debug
+            self.senderClass.sendInLoop()
+            # self.senderClass.sendPcap()
 
         except:
             print("ERROR with sender class!")
@@ -208,8 +223,4 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = Ui_MainWindow()
     window.show() 
-    # MainWindow = QtWidgets.QMainWindow()
-    # ui = Ui_MainWindow()
-    # ui.setupUi(MainWindow)
-    # MainWindow.show()
     sys.exit(app.exec_())

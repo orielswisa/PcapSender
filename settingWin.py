@@ -161,8 +161,8 @@ class Ui_SettingWindow(object):
     def parserJson(self):
         try:
             with open(self.config_file) as jFile:
-                self.srcip_edit.setText(IP().src)
                 self.config_dict = json.load(jFile)
+                self.srcip_edit.setText(self.config_dict["srcip"])
                 self.dstip_edit.setText(self.config_dict["dstip"])
                 self.srcport_edit.setText(self.config_dict["srcport"])
                 self.dstport_edit.setText(self.config_dict["dstport"])
@@ -175,25 +175,22 @@ class Ui_SettingWindow(object):
                 if self.config_dict["protocol"].lower() == "udp":
                     idx = self.protocol_comboBox.findText("UDP") 
                     self.protocol_comboBox.setCurrentIndex(idx)
-                    print(idx)
                 else:
                     idx = self.protocol_comboBox.findText("TCP") 
                     self.protocol_comboBox.setCurrentIndex(idx)
-                print(self.config_dict["dstip"])
         except:
             self.msg = QMessageBox()
             self.msg.setIcon(QMessageBox.Critical)
             self.msg.setText("The config(json) file not exist")
             self.msg.setInformativeText('Please enter valid config file path')
             self.msg.setWindowTitle("Error")
-            self.msg.exec_()
-            #need open messageBox
-            print("error")        
+            self.msg.exec_()     
  
     def saveJson(self):
         self.config_dict["dstip"] = self.dstip_edit.toPlainText()
         self.config_dict["srcport"] = self.srcport_edit.toPlainText()
         self.config_dict["dstport"] = self.dstport_edit.toPlainText()
+        self.config_dict["srcip"] = self.srcip_edit.toPlainText()
 
         self.config_dict["conv_srcip"] = self.conv_srcip_edit.toPlainText()
         self.config_dict["conv_dstip"] = self.conv_dstip_edit.toPlainText()
